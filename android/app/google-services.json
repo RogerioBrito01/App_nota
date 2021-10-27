@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "3501013568",
+    "project_id": "bdnote-9f723",
+    "storage_bucket": "bdnote-9f723.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:3501013568:android:71ed0bf12caa4ed0683da5",
+        "android_client_info": {
+          "package_name": "com.mynote"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "3501013568-l5hkir37d7c8htl438ft0ilr1q4i4i8u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAuYHT0D4fcG0HYQIr-9ppy4JEotsbLank"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "3501013568-l5hkir37d7c8htl438ft0ilr1q4i4i8u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
