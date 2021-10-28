@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mynote/feature/presentation/widgets/registeUser.dart';
+import 'package:mynote/feature/presentation/widgets/textFormField.dart';
 import 'package:mynote/feature/domain/entities/user_entity.dart';
 import 'package:mynote/feature/presentation/cubit/auth/auth_cubit.dart';
 import 'package:mynote/feature/presentation/cubit/user/user_cubit.dart';
