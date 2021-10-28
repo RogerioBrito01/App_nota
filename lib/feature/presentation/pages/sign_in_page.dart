@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mynote/feature/presentation/widgets/registeUser.dart';
 import 'package:mynote/feature/domain/entities/user_entity.dart';
 import 'package:mynote/feature/presentation/cubit/auth/auth_cubit.dart';
 import 'package:mynote/feature/presentation/cubit/user/user_cubit.dart';
 import 'package:mynote/feature/presentation/widgets/common.dart';
+import 'package:mynote/feature/presentation/widgets/container_button_widget.dart';
 
 import '../../../app_const.dart';
 import 'home_page.dart';
@@ -55,6 +57,7 @@ class _SignInPageState extends State<SignInPage> {
         listener: (context,userState){
           if (userState is UserSuccess){
             BlocProvider.of<AuthCubit>(context).loggedIn();
+
           }
           if (userState is UserFailure){
             snackBarError(msg: "invalid email",scaffoldState: _scaffoldGlobalKey);
@@ -77,36 +80,20 @@ class _SignInPageState extends State<SignInPage> {
           SizedBox(
             height: 40,
           ),
-          Container(
-            height: 50,
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            decoration: BoxDecoration(
-              color: Colors.black.withOpacity(.1),
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-            ),
-            child: TextField(
-              controller: _emailController,
-              decoration: InputDecoration(
-                  hintText: 'Enter your email', border: InputBorder.none),
-            ),
-          ),
+         TextFormFieldRegister(
+           controller: _emailController,
+           hintText: 'Enter your email',
+         ),
+
           SizedBox(
             height: 10,
           ),
-          Container(
-            height: 50,
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            decoration: BoxDecoration(
-              color: Colors.black.withOpacity(.1),
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-            ),
-            child: TextField(
-              controller: _passwordController,
-              obscureText: true,
-              decoration: InputDecoration(
-                  hintText: 'Enter your Password', border: InputBorder.none),
-            ),
+          TextFormFieldRegister(
+            controller: _passwordController,
+            hintText: "Enter your Password",
+            obscureText: true,
           ),
+
           SizedBox(
             height: 20,
           ),
@@ -114,23 +101,9 @@ class _SignInPageState extends State<SignInPage> {
             onTap: () {
               submitSignIn();
             },
-            child: Container(
-              height: 45,
-              alignment: Alignment.center,
-              width: MediaQuery
-                  .of(context)
-                  .size
-                  .width / 2,
-              decoration: BoxDecoration(
-                color: Colors.deepOrange.withOpacity(.8),
-                borderRadius: BorderRadius.all(
-                  Radius.circular(10),
-                ),
-              ),
-              child: Text(
-                "Login",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-              ),
+            child: ContainerButtonWidget(
+              color: Colors.deepOrange.withOpacity(.8),
+              texto: "Login",
             ),
           ),
           SizedBox(
@@ -140,24 +113,13 @@ class _SignInPageState extends State<SignInPage> {
             onTap: () {
               Navigator.pushNamedAndRemoveUntil(context, PageConst.signUpPage, (route) => false);
             },
-            child: Container(
-              height: 45,
-              alignment: Alignment.center,
-              width: MediaQuery
-                  .of(context)
-                  .size
-                  .width / 2,
-              decoration: BoxDecoration(
+
+            child:
+              ContainerButtonWidget(
                 color: Colors.grey.withOpacity(.8),
-                borderRadius: BorderRadius.all(
-                  Radius.circular(10),
-                ),
+                texto: "Sign Up",
               ),
-              child: Text(
-                "Sign Up",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-              ),
-            ),
+
           ),
         ],
       ),

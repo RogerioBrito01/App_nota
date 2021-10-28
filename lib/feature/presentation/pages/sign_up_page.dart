@@ -3,10 +3,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mynote/feature/presentation/widgets/registeUser.dart';
 import 'package:mynote/feature/domain/entities/user_entity.dart';
 import 'package:mynote/feature/presentation/cubit/auth/auth_cubit.dart';
 import 'package:mynote/feature/presentation/cubit/user/user_cubit.dart';
 import 'package:mynote/feature/presentation/widgets/common.dart';
+import 'package:mynote/feature/presentation/widgets/container_button_widget.dart';
 
 import '../../../app_const.dart';
 import 'home_page.dart';
@@ -20,11 +22,12 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
 
-
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
 
+
+    final _formlKey = GlobalKey<FormState>();
   GlobalKey<ScaffoldState> _globalKey = GlobalKey<ScaffoldState>();
 
 
@@ -62,7 +65,7 @@ class _SignUpPageState extends State<SignUpPage> {
               BlocProvider.of<AuthCubit>(context).loggedIn();
             }
             if (userState is UserFailure){
-              snackBarError(msg: "invalid email",scaffoldState: _globalKey);
+              snackBarError(msg: "cadastro envalido",scaffoldState: _globalKey);
             }
           },
         )
@@ -70,107 +73,101 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   _bodyWidget() {
+
     return Container(
       padding: EdgeInsets.all(25),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SizedBox(
-            height: 30,
-          ),
-          GestureDetector(
-            onTap: () {
-              Navigator.pushNamedAndRemoveUntil(context, PageConst.signInPage, (route) => false);
-            },
-            child: Container(
-              height: 50,
-              width: 50,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(color: Colors.black.withOpacity(.6)),
-                shape: BoxShape.circle,
-              ),
-              child: Icon(Icons.arrow_back_ios),
+      child: Form(
+        key: _formlKey,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: 30,
             ),
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          Container(
-            height: 50,
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            decoration: BoxDecoration(
-              color: Colors.black.withOpacity(.1),
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-            ),
-            child: TextField(
-              controller: _usernameController,
-              decoration: InputDecoration(
-                  hintText: 'Username', border: InputBorder.none),
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Container(
-            height: 50,
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            decoration: BoxDecoration(
-              color: Colors.black.withOpacity(.1),
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-            ),
-            child: TextField(
-              controller: _emailController,
-              decoration: InputDecoration(
-                  hintText: 'Enter your email', border: InputBorder.none),
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Container(
-            height: 50,
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            decoration: BoxDecoration(
-              color: Colors.black.withOpacity(.1),
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-            ),
-            child: TextField(
-              obscureText: true,
-              controller: _passwordController,
-              decoration: InputDecoration(
-                  hintText: 'Enter your Password', border: InputBorder.none),
-            ),
-          ),
-          SizedBox(
-            height: 15,
-          ),
-          GestureDetector(
-            onTap: (){
-              submitSignIn();
-            },
-            child: Container(
-              height: 45,
-              alignment: Alignment.center,
-              width: MediaQuery.of(context).size.width / 2,
-              decoration: BoxDecoration(
-                color: Colors.deepOrange.withOpacity(.8),
-                borderRadius: BorderRadius.all(
-                  Radius.circular(10),
+            GestureDetector(
+              onTap: () {
+                Navigator.pushNamedAndRemoveUntil(context, PageConst.signInPage, (route) => false);
+              },
+              child: Container(
+                height: 50,
+                width: 50,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(color: Colors.black.withOpacity(.6)),
+                  shape: BoxShape.circle,
                 ),
-              ),
-              child: Text(
-                "Create New Account",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                child: Icon(Icons.arrow_back_ios),
               ),
             ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-        ],
-      ),
+            SizedBox(
+              height: 30,
+            ),
+            TextFormFieldRegister(
+              controller: _usernameController,
+              hintText: "Username",
+              obscureText: false,
+
+             // ),
+              validator: (valor){
+                if(valor!.isEmpty) {
+                  return "Required field ";
+                }
+                return null;
+              },
+            ),
+
+            SizedBox(
+              height: 10,
+            ),
+            TextFormFieldRegister(
+              controller: _emailController,
+              hintText: "Enter your email",
+              obscureText: false,
+              validator: (valor){
+                if(valor!.isNotEmpty&& valor.contains("@")){
+                  return null;
+                }if(valor.isEmpty){
+                  return "Required field ";
+                }
+                return "enter a valid email with @";
+              },
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            TextFormFieldRegister(
+              controller: _passwordController,
+              hintText: "Enter your Password",
+              obscureText: true,
+              validator: (valor){
+                if(valor!.length <6){
+                  return "Required field! minimum of 6 characters";
+                }
+                return null;
+              },
+            ),
+
+            SizedBox(
+              height: 15,
+            ),
+            GestureDetector(
+              onTap: (){
+                submitSignIn();
+                _formlKey.currentState!.validate();
+              },
+              child: ContainerButtonWidget(
+               texto: "Create New Account",
+                color: Colors.green,
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+          ],
+        ),
+
+      )
     );
   }
 
@@ -180,7 +177,8 @@ class _SignUpPageState extends State<SignUpPage> {
       BlocProvider.of<UserCubit>(context).submitSignUp(user: UserEntity(
         email: _emailController.text,
         password: _passwordController.text,
-      ));
+      )
+      );
     }
   }
 }

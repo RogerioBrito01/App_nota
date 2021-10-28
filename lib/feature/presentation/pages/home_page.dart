@@ -123,7 +123,7 @@ class _HomePageState extends State<HomePage> {
                 },
                 child: Container(
                   decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Colors.green,
                       borderRadius: BorderRadius.circular(8),
                       boxShadow: [
                         BoxShadow(

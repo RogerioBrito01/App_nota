@@ -12,9 +12,12 @@ class UserInitial extends UserState {
 
 class UserLoading extends UserState {
   @override
-  List<Object> get props => [];
+  List<Object> get props => [
+    "email ou senha invalidos "
+  ];
 }
 class UserFailure extends UserState {
+
   @override
   List<Object> get props => [];
 }

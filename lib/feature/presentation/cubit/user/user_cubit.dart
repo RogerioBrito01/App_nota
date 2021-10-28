@@ -1,11 +1,15 @@
+// ignore_for_file: nullable_type_in_catch_clause
+
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:mynote/feature/domain/entities/user_entity.dart';
 import 'package:mynote/feature/domain/use_cases/get_create_current_user_usecase.dart';
 import 'package:mynote/feature/domain/use_cases/sign_in_usecase.dart';
 import 'package:mynote/feature/domain/use_cases/sign_up_usecase.dart';
+import 'package:mynote/on_generate_route.dart';
 
 part 'user_state.dart';
 
@@ -20,9 +24,10 @@ class UserCubit extends Cubit<UserState> {
     try {
       await signInUseCase.call(user);
       emit(UserSuccess());
-    }on SocketException catch(_){
+
+    }on SocketException  catch(_){
       emit(UserFailure());
-    } catch(_){
+    } catch(e){
       emit(UserFailure());
     }
   }
@@ -36,6 +41,7 @@ class UserCubit extends Cubit<UserState> {
       emit(UserFailure());
     } catch(_){
       emit(UserFailure());
+
     }
 
   }
